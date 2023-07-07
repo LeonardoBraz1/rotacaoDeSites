@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Language" content="pt-br" />
+    <title>Sistema de Rotação de Sites</title>
+
+    <style>
+      @keyframes blink {
+        0% {
+          color: green;
+        }
+        50% {
+          color: transparent;
+        }
+        100% {
+          color: green;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <p
+      style="
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20%;
+        animation: blink 3s linear infinite;
+        font-size: 3em;
+      "
+    >
+      Você está online!
+    </p>
+    <script>
+      // Não deixa que os pop up seja bloqueados pelo navegador
+      window.addEventListener("load", function () {
+        var open = window.open;
+        window.open = function (url, name, specs, replace) {
+          var popup = open.call(this, url, name, specs, replace);
+          return popup;
+        };
+      });
+
+      // não mexa no código apenas nas "url" sem tira as aspas, ou no "name" caso queira troca o nome
+      var sites = [
+        {
+          name: "chamados",
+          url: "https://app.powerbi.com/view?r=eyJrIjoiYmIxM2MwMzEtNDU0OS00YmU5LThjNTEtYWZiNmQwYjZhNDBiIiwidCI6ImFhODJlNjc3LWVkZTQtNGY1Mi04NjA5LTI1Yjk5N2Y1ODM2OCIsImMiOjh9",
+        },
+        {
+          name: "nagios",
+          url: "https://app.powerbi.com/view?r=eyJrIjoiNzk4N2U2YmMtMzgxMi00ZTQ0LWE1NjEtYWYyOGVkYmU0MDk1IiwidCI6ImFhODJlNjc3LWVkZTQtNGY1Mi04NjA5LTI1Yjk5N2Y1ODM2OCIsImMiOjh9&pageName=ReportSectionb8ae0403d19c4709be30",
+        },{
+          name: "nagios",
+          url: "https://app.powerbi.com/view?r=eyJrIjoiMTdjZGNjODYtZGM0Ni00YjI5LTkzMjktYTNkNDQzYzM5ZWE3IiwidCI6ImFhODJlNjc3LWVkZTQtNGY1Mi04NjA5LTI1Yjk5N2Y1ODM2OCIsImMiOjh9",
+        },{
+          name: "nagios",
+          url: "https://app.powerbi.com/view?r=eyJrIjoiN2JiYThmMTItNWRjMC00NzhkLWE0NWYtYzMyNWNjMWJlN2UyIiwidCI6ImFhODJlNjc3LWVkZTQtNGY1Mi04NjA5LTI1Yjk5N2Y1ODM2OCIsImMiOjh9",
+        }
+      ];
+
+      var currentIndex = 0;
+      var currentWindow = null;
+
+      function rotateSites() {
+        if (currentWindow !== null) {
+          // Carrega a próxima url dentro da pagina que já esta aberta
+          currentWindow.location.href = sites[currentIndex].url;
+        } else {
+          // Abre uma nova aba caso ainda não tenha uma
+          currentWindow = window.open(sites[currentIndex].url, "_blank");
+        }
+        currentIndex = (currentIndex + 1) % sites.length;
+      }
+
+      setInterval(rotateSites, 30000);
+
+      rotateSites();
+    </script>
+  </body>
+</html>
